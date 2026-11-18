@@ -1,22 +1,20 @@
 # LLL lattice spectral stability
 
-Reproducibility supplement to Davis Rens, *Certified non-hexagonal spectral stability in the lowest-Landau-level equation*, SuperMatics Technical Report SM-TR-2026-02 (2026), report DOI [10.5281/zenodo.24326107](https://doi.org/10.5281/zenodo.24326107). The report is not peer reviewed.
-Repository: https://github.com/SuperMatics-Inc/lll-lattice-stability.
-Version 1.0.0; software supplement DOI: [10.5281/zenodo.24326109](https://doi.org/10.5281/zenodo.24326109). Both DOIs are published and resolve at the links above.
+Davis Rens, SuperMatics Inc. Software for *Certified non-hexagonal spectral stability in the lowest-Landau-level equation*, SuperMatics Technical Report SM-TR-2026-02 (2026), [10.5281/zenodo.24326107](https://doi.org/10.5281/zenodo.24326107). The report has not been peer reviewed.
 
-## Statements and limits
+Software version 1.0.0: [10.5281/zenodo.24326109](https://doi.org/10.5281/zenodo.24326109). Source: [SuperMatics-Inc/lll-lattice-stability](https://github.com/SuperMatics-Inc/lll-lattice-stability).
 
-| Label | Statement | Lean scope |
-|---|---|---|
-| PROVED | Gaussian Bloch symbol, covariance and cancellation below degree four | Algebraic consequences of supplied moment identities; analytic covariance is assumed |
-| CERTIFIED | Positive determinant throughout the punctured Bloch torus for tau=-2/5+19i/20 and tau=2/5+i | Conditional positivity, actual 776/719-leaf covers and near-origin scaling; analytic enclosures remain hypotheses |
-| CERTIFIED | Hexagonal dispersion has two simple inflection points, derivative sum at least 1.20 and theta-derivative expression greater than 26.95364 | Theta evaluation and interval arithmetic are not formalized |
-| CERTIFIED PARTIAL | 4178 stable closed shape boxes, 25088 unstable boxes, cusp instability for Im(tau)>=3 and a long-wave transition curve | Separate GSTMap checks the 40570-leaf partition and conditional reduction; not the Gaussian symbol, interval arithmetic or Gamma4 |
-| NUMERICAL | Sampled landscapes, S sampling and finite-torus spectra | No continuum certificate |
+## Results
 
-The origin has a nonzero nilpotent block. Real spectrum is not uniform boundedness, weighted/dispersive stability or nonlinear stability. These examples contradict a spectral reading of GST's expectation, not their theorems. The partial map is not a classification or identification of the full spectral boundary. Its X leaves remain undecided; their coordinate area is 5619/134217728.
+Interval calculations give a positive Bloch determinant everywhere on the punctured torus for two nonhexagonal lattice shapes, `tau = -2/5 + 19i/20` and `tau = 2/5 + i`. The calculations also find two simple inflection points of the hexagonal dispersion, certify a derivative sum of at least 1.20, and bound the theta-derivative expression strictly above 26.95364.
 
-S has **one interval implementation**, with independent floating-point sampling of all 4178 leaves. A second-arithmetic attempt covered only **12/4178** leaves; 4166 remain uncovered by it. Gamma4 has **one interval backend**, shared with the independent U verifier. U has Arb and cancellation-preserving mpmath.iv provenance; the public map command runs only the latter. The analytic formulas and explicit tails remain part of the trust base. See `gstmap/PROOFS.md` for the mathematical arguments.
+We derive the Gaussian Bloch symbol, its covariance, and its cancellation below degree four. Lean checks the algebraic consequences of the moment identities, the near-origin scaling, and the geometry of the 776- and 719-leaf covers. It takes analytic covariance and the enclosures as hypotheses. The theta evaluations and interval arithmetic remain external to Lean.
+
+The partial shape map certifies 4178 stable closed boxes, 25088 unstable boxes, cusp instability for `Im(tau) >= 3`, and a long-wave transition curve. The separate `GSTMap` project checks the 40570-leaf partition and the conditional reduction. Its proof assumes the analytic bounds and does not check the Gaussian symbol, interval arithmetic or the curve `Gamma4`. The undecided X leaves have coordinate area `5619/134217728`. The map locates a long-wave transition, not the full spectral boundary.
+
+The origin has a nonzero nilpotent block. Real spectrum alone gives neither uniform boundedness nor weighted, dispersive or nonlinear stability. The examples contradict a spectral reading of the expectation of Germain, Schwinte and Thomann, rather than their theorems. The sampled landscapes, S samples and finite-torus spectra are numerical calculations, not continuum bounds.
+
+One interval implementation checks the S leaves. Separate floating-point code samples all 4178, and a second interval calculation covered 12 of them, leaving 4166 without a second interval check. One interval implementation checks `Gamma4` and is shared with the separate U verifier. Both Arb and cancellation-preserving `mpmath.iv` have been used to check U; the public map command uses only `mpmath.iv`. The analytic formulas and tail estimates are given in `gstmap/PROOFS.md`.
 
 ## Reproduction
 
@@ -29,13 +27,15 @@ uv run --no-project --with-requirements requirements.txt python gstmap/replay.py
 uv run --no-project --with-requirements requirements.txt python figures/plot_partial_map.py --output-dir figure-output
 ```
 
-The original runner executes the Arb and floating-point suite, the independent mpmath.iv two-point/hexagonal certificates, exact rational cover checks and the physical-space M=256 torus (65536 characters). The partial-map command checks exact partition data, every U leaf, all 397 curve patches and 396 joins, negative controls, independent S sampling and the cusp. Every child exit is recorded in output JSON. `--evidence` omits the expensive primary Arb S cover; omit that flag to execute that cover, not a second S implementation. The generated Lean partition must match the shipped LF bytes exactly.
+The first calculation command runs the Arb and floating-point suite, the separate `mpmath.iv` certificates for the two lattice shapes and the hexagonal dispersion, and exact rational cover checks. It also runs the physical-space torus calculation at `M=256` (65536 characters). The partial-map command checks the exact partition, every U leaf, all 397 curve patches and 396 joins, the negative controls, independent S samples and the cusp. The drivers record each subprocess's exit status in JSON. `--evidence` skips the expensive primary Arb S cover; remove that flag to run it. The generated Lean partition must match the supplied LF bytes.
 
-The `partial-map` CI job deliberately runs a bounded subset:
-`uv run --no-project --with-requirements requirements.txt python gstmap/replay.py --ci-subset --workers 4 --output map-output`.
-It checks the exact partition and LF generated-data match, all 397 Gamma4 patches and 396 joins, U and Gamma4 negative controls, and the cusp. It **does not** replay the 25088-leaf U cover, S sampling or the primary Arb S cover; these omissions are listed in its receipt. The full evidence command above still checks every U leaf and all S samples. Neither mode supplies a second S implementation or a second Gamma4 backend.
+The `partial-map` CI job checks the exact partition and the generated Lean data, all 397 `Gamma4` patches and 396 joins, the U and `Gamma4` negative controls and the cusp:
 
-`figures/plot_partial_map.py` renders the exact partition, not a new spectral calculation. Thin X boxes may be smaller than a print pixel. White below the unit arc is outside the fundamental domain.
+```sh
+uv run --no-project --with-requirements requirements.txt python gstmap/replay.py --ci-subset --workers 4 --output map-output
+```
+
+This job leaves the U cover, S sampling and primary Arb S cover to the reproduction commands above. The figure script draws the exact partition; thin X boxes can be narrower than a print pixel. The white region below the unit arc is outside the fundamental domain.
 
 For each formal project:
 
@@ -45,12 +45,12 @@ lake exe cache get
 lake build
 ```
 
-Both use Lean 4.35.0 and Mathlib v4.35.0, resolved to `56a005855ea17e0b0958f73ec801ae140b0a1679` in both manifests. No custom axioms or admitted proofs are used. Original 37 and map eight axiom checks use only propositional extensionality, classical choice and quotient soundness. CI builds both public git-pinned projects; focused Mathlib imports keep the map project within its unchanged 4096 MiB per-process limit. It frees unused runner SDKs before fetching Lean dependencies. The theorem statements and proof bodies are unchanged.
+Both projects use Lean 4.35.0 and Mathlib v4.35.0 at revision `56a005855ea17e0b0958f73ec801ae140b0a1679`. The 37 axiom checks for the original project and eight for the map list only propositional extensionality, classical choice and quotient soundness. Neither project uses custom axioms or admitted proofs. GitHub Actions builds both projects. The map build uses focused Mathlib imports and a 4096 MiB per-process limit.
 
-The SHA256SUMS manifest is computed from an LF Mac checkout and verified on a fresh clone. Binary PDFs are excluded from newline translation. Raw execution logs and the manuscript are maintained privately, not distributed here. `requirements.txt` pins the exercised numerical and plotting package versions; the runners record the resolved Python/package versions.
+`SHA256SUMS` lists checksums for an LF checkout. PDFs are treated as binary files. `requirements.txt` specifies the numerical and plotting package versions, and the drivers record the Python and package versions used. Raw execution logs and the report are not part of this repository. The supplement is licensed under Apache-2.0. It contains no experimental data or third-party manuscript.
 
-## Attribution and trust
+## AI use
 
-D.R. conceived and directed the programme, selected and framed the problems, orchestrated the research and the verification, wrote and edited the manuscript extensively, and reviewed the full manuscript and its arguments in depth. He takes responsibility for the final work. LLM-based agents generated the proofs, computer-assisted certificates, implementations, Lean sources and manuscript drafts and edits, and performed independent validation. Recorded runtime configuration labels were Anthropic Claude Opus 5.5, Anthropic Claude Sonnet 5.5 and OpenAI GPT-6.1 Sol; separate partial-map validation used runtime configuration label anthropic/claude-sonnet-5-5. Served-model identity was not independently verified. An earlier finite-torus validation agent's identity was not recorded. Independence is from the generating agent, not a non-LLM or human re-derivation. This preserves the model-attribution trust caveat: configuration labels are not proof of served identity. Model agreement is not a proof. No LLM is an author.
+D.R. conceived and directed the programme, selected and framed the problems, orchestrated the research and the verification, wrote and edited the manuscript extensively, and reviewed the full manuscript and its arguments in depth. He takes responsibility for the final work.
 
-The supplement is Apache-2.0 licensed. No experimental data or third-party manuscript is redistributed.
+Under Davis Rens’s direction and review, AI agents generated proofs, computer-assisted certificates, code, Lean sources and manuscript drafts and edits. Other AI agents checked the results; these checks were separate from generation, not independent human derivations. The recorded model labels were Anthropic Claude Opus 5.5, Anthropic Claude Sonnet 5.5 and OpenAI GPT-6.1 Sol. A separate map check was labelled `anthropic/claude-sonnet-5-5`. The actual models were not independently verified, and the model for an earlier finite-torus check was not recorded. Agreement among models is not proof. No AI agent is an author.

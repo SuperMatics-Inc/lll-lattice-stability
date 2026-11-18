@@ -42,7 +42,7 @@ theorem normalizedError_mono (A B e Ar Br er rho r : ℝ)
   gcongr
 
 /-- Transfer an exact lower endpoint at r to a uniform rho^4 lower enclosure.
-This is the analytic-interface form used by the recorded certificate assembly. -/
+The proofs for the two recorded subdivisions use this bound. -/
 theorem near_lower_bound (sigma p lower rho r : ℝ) (c : ℕ → ℝ) (N : ℕ)
     (A B e : ℝ → ℝ)
     (hrho : 0 ≤ rho) (hr : rho ≤ r)

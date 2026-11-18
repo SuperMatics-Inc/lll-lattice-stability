@@ -1,7 +1,7 @@
-"""Uniform parametric interval-Krawczyk proof of the quartic degeneracy curve.
+"""Enclose the quartic transition curve Gamma4 with a parametric Krawczyk argument.
 The unknowns are (y,r), f(x,y,r)=P4_(x+iy)(1,r), F=(f,f_r).
-Rational matrix interpolation and mpmath.iv arithmetic; float seeds are not proof.
-Outputs Gamma4, NOT by itself the full spectral-stability boundary.
+We interpolate rational matrices and use mpmath.iv for the bounds. The starting guesses
+are floating-point values. The calculation locates a long-wave transition.
 Usage: python gamma_implicit.py [workers=4] [first_cells=0]
 """
 import json, sys, time, os

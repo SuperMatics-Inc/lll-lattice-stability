@@ -1,5 +1,5 @@
-"""Exploration (float64, NUMERICAL): GST LLL Bloch symbol Sigma_tau(s,xi)=A^2-|B|^2 and its Taylor/quartic data.
-Definitions are those of the sci-gstlattice manuscript: G(x,y)=c exp(-pi t2 (x^2+y^2)+2 pi i t1 x y), c=sqrt(t2)/pi,
+"""Evaluate the GST lowest-Landau-level symbol and its Taylor coefficients in double precision.
+In the notation of the accompanying report, G(x,y)=c exp(-pi t2 (x^2+y^2)+2 pi i t1 x y), c=sqrt(t2)/pi,
 K(s,xi)=sum G(m+s,n)e^{2 pi i xi n}, B(s,xi)=sum G(m+s,n-s)e^{2 pi i xi (n-m)}, A=2K-lam, Sigma=A^2-|B|^2.
 """
 import numpy as np

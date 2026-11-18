@@ -1,4 +1,4 @@
-"""NUMERICAL (float64, NOT certified) scan of the LLL linearised symbol for general tau.
+"""Sample the LLL linearised symbol in double precision for general tau.
 Run:  uv run --no-project --with numpy --with scipy python pocket_scan.py
 Symbol: Sigma(s,xi)=A^2-|B|^2, A=2*K1hat^s(xi)-lam (real), B=K2hat^s(-xi).  Stable iff Sigma>=0 on the Bloch torus.
 Kernels (Poisson-resummed Gaussian sums, verified against quadrature in the working notes):

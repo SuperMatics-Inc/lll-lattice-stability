@@ -1,4 +1,4 @@
-"""NUMERICAL independent physical-space LLL Galerkin check, not a certificate.
+"""Check the LLL spectrum numerically using a separate physical-space Galerkin calculation.
 No Gaussian Bloch symbol or cert_sigma imports. Primitive magnetic translations
 pair alpha,-alpha. Their pointwise phases cancel in the anomalous integral.
 Memory is bounded by batching; M=256 means 65,536 flux quanta.

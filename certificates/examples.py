@@ -1,5 +1,5 @@
 """Archived table: full-torus (64x128, |q|>=0.05) min Sigma, small-k quartic ratio min Sigma/|q|^4 at |q|=0.03, and min_theta Q
-for selected tau. NUMERICAL (float64)."""
+for selected tau, calculated in double precision."""
 import numpy as np
 from pocket_scan import finite_min, polar_min, minQ
 

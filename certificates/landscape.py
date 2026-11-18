@@ -1,4 +1,4 @@
-"""NUMERICAL (float64): landscape of Sigma(s,xi)=A^2-|B|^2 over the torus from the closed Gaussian lattice sums
+"""Sample Sigma(s,xi)=A^2-|B|^2 on the torus in double precision using the closed Gaussian sums
 (A: 2*sum G(m+s,n) e^{2 pi i xi n} - lam ; B: sum G(m+s,n-s) e^{2 pi i xi (n-m)}, G(x,y)=c exp(-pi t2 (x^2+y^2)+2 pi i t1 x y)).
 Used to design the Arb cell certificate (cert_sigma.py): reports min Sigma, min Sigma/rho^4 (rho=max(|s|,|xi|)) on rings.
 Run: uv run --no-project --with numpy python landscape.py

@@ -1,4 +1,4 @@
-"""Verify every released file against SHA256SUMS (LF checkout bytes)."""
+"""Compare file checksums against SHA256SUMS in an LF checkout."""
 from pathlib import Path
 import hashlib
 

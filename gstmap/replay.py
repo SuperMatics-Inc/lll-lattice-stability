@@ -1,9 +1,9 @@
-"""One-command GSTMAP certificate replay; not an independent S implementation.
+"""Run the shape-map checks using the original Arb code for the stable boxes.
 uv run --no-project --with python-flint --with mpmath --with numpy --with scipy python replay.py --output OUT --workers 6
---evidence skips the expensive primary Arb S replay (explicitly recorded).
---ci-subset checks partition, Gamma4 patches/joins, negative controls and cusp;
-it additionally omits the full U cover and S sampling.
-Lean is a separate, conditional formal artifact: cd lean && lake build.
+--evidence omits the full Arb check of the stable boxes.
+--ci-subset checks the partition, Gamma4 patches and joins, negative controls and cusp.
+It also omits the full unstable cover and the stable-box sampling.
+Build the separate Lean project with: cd lean && lake build.
 """
 import argparse, hashlib, json, os, subprocess, sys, time
 from pathlib import Path
@@ -14,10 +14,10 @@ def digest(p): return hashlib.sha256(p.read_bytes()).hexdigest()
 
 def main():
     ap=argparse.ArgumentParser(description=__doc__)
-    ap.add_argument('--output',type=Path,required=True)
-    ap.add_argument('--workers',type=int,default=6)
-    ap.add_argument('--evidence',action='store_true')
-    ap.add_argument('--ci-subset',action='store_true')
+    ap.add_argument('--output',type=Path,required=True,help='Directory for results and logs')
+    ap.add_argument('--workers',type=int,default=6,help='Number of worker processes (default: 6)')
+    ap.add_argument('--evidence',action='store_true',help='Omit the full Arb check of the stable boxes')
+    ap.add_argument('--ci-subset',action='store_true',help='Run the smaller set of checks used by GitHub Actions')
     a=ap.parse_args(); assert 1<=a.workers<=6
     out=a.output.resolve(); out.mkdir(parents=True,exist_ok=True)
     tree=ROOT/'data/tree_smallq.jsonl'

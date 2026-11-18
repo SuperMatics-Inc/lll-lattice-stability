@@ -1,4 +1,4 @@
-# PROOFS: spectral stability map of the LLL Abrikosov lattice (GST Hamiltonian setting)
+# Spectral stability map for the lowest-Landau-level lattice
 
 Setting (Germain--Schwinte--Thomann, arXiv:2404.06085; notation of the associated article):
 `tau = t1 + i t2 in H`, `c = sqrt(t2)/pi`,
@@ -12,20 +12,17 @@ The fibre spectrum over Bloch momentum `(s,xi)` is `{ +-sqrt(Sigma) }` (paper, T
 a nilpotent block). **Spectral stability of tau** means `Sigma_tau >= 0` on the whole Bloch torus.
 All sums converge absolutely (Gaussian), so every identity below is an identity of real-analytic functions.
 
-Conventions: PROVED denotes the analytic arguments below, CERTIFIED an interval computation with the stated semantics,
-LEAN kernel-checked algebra/coverage with explicit analytic hypotheses, and NUMERICAL a non-rigorous calculation.
-
 ## 0. Well-definedness on the torus; energy form
 
 `K(s+1,xi)=K(s,xi)=K(s,xi+1)` (shift `m`, resp. `e^{2 pi i n}=1`), and `B(s+1,xi)=e^{4 pi i xi}B(s,xi)`,
 `B(s,xi+1)=B(s,xi)`. Hence `|B|`, `A`, `Sigma` are 1-periodic in both variables: `Sigma` lives on the torus `R^2/Z^2`.
 
-**Energy equivalence (PROVED).** The second variation of the Hamiltonian energy on Bloch perturbations is the Hermitian form
+The second variation of the Hamiltonian energy on Bloch perturbations is the Hermitian form
 `W(s,xi) = [[A, B],[conj B, A]]` (paper, Sec. 2). `W >= 0` iff `A >= |B|`. At `(0,0)`, `A = lambda > 0`.
 If `Sigma > 0` on the torus minus `{0}`, then `A != 0` there, the punctured torus is connected, so `A>0` throughout and
 `W >= 0`; its two eigenvalues are `A +/- |B|`, strictly positive away from zero. This is a fibrewise quadratic-energy statement, not a nonlinear local-minimum theorem. Conversely `W>=0` gives `Sigma>=0`.
 
-## 1. Modular covariance (PROVED)
+## 1. Modular covariance
 
 **Proposition 1.** For all `tau in H`, `(s,xi) in R^2`:
 
@@ -78,15 +75,15 @@ on `H` is `F+ = { 0 <= Re tau <= 1/2, |tau| >= 1 }`. Formalised in `lean/GSTMap/
 * Define the **quartic-degeneracy set** `Gamma4` by `min_theta P4_tau(theta)=0`. This definition does not identify it with the full spectral boundary. Section 10 encloses one analytic branch and its positive sextic coefficient.
 
 
-## 3. Interval-arithmetic certificates (CERTIFIED)
+## 3. Interval certificates
 
-**Unstable certificate (box U).** A box `Omega = [c1-w1,c1+w1] x [c2-w2,c2+w2] subset H` is *unstable-certified* if a rational Bloch
-point `q0=(s0,xi0)` exists with `sup_{tau in Omega} Sigma_tau(q0) < 0`. The engine (`unst.py`, `gsteng.py: NearData.sigma_upper_at`)
+For an unstable box `Omega = [c1-w1,c1+w1] x [c2-w2,c2+w2] subset H`, a rational Bloch point
+`q0=(s0,xi0)` must satisfy `sup_{tau in Omega} Sigma_tau(q0) < 0`. The engine (`unst.py`, `gsteng.py: NearData.sigma_upper_at`)
 evaluates `K,B,lambda` at `q0` by Arb balls with `tau` as a ball, truncating the lattice at `|m|,|n| <= M=6` with the explicit Gaussian
-tail `T(M)` added to the radii; the output upper bound is rigorous for all `tau in Omega` simultaneously.
+tail `T(M)` added to the radii. This gives one upper bound valid throughout `Omega`.
 
-**Stable certificate (box S).** Claim `Sigma_tau(q) > 0` for all `q in torus minus {0}`, all `tau in Omega`.
-(a) NEAR `|q| <= rmax`: Taylor expansion of `Sigma_tau` about `0` of order `N` with all coefficients as Arb balls in `tau in Omega`
+For a stable box, we bound `Sigma_tau(q)` below by a positive quantity for every nonzero Bloch momentum and every `tau in Omega`.
+(a) For `|q| <= rmax`, expand `Sigma_tau` about `0` to order `N`, enclosing the coefficients as Arb balls over `tau in Omega`
 (`jets_full`); each homogeneous part is bounded on angular cells by `lo_j`, using a centred value plus interval derivatives in `tau`.
 The terms above degree `N` are enclosed by the positive exponential/Gaussian coefficient majorant `taylor_tail_eps`.
 For `rin<=rho<=rmax` the resulting Taylor lower bound is positive; for `0<rho<=rin` the quartic dominates.
@@ -95,13 +92,13 @@ its coefficientwise absolute majorant gives `|R(rho)| <= (rho/rin)^(N+1) E_R(rin
 The omitted-lattice part has the same property: bound its positive majorant at `rin` and then discard its terms of degree at most `N`.
 Products with the bounded low-degree `A,B` series preserve this scaling, so `E_Sigma(rho)/rho^4 <= E_Sigma(rin)/rin^4` for `N+1>=4`.
 This is the justification for the inner-disc subtraction in `near_cover`, not an inference from a pointwise error bound alone.
-(b) FAR `|q|>=rmax`: adaptive subdivision of the torus, on each cell `Sigma>= Sigma(center) - L h` with `L` from rigorous second-derivative
+(b) For `|q| >= rmax`, subdivide the torus adaptively. On each cell, `Sigma >= Sigma(center) - L h` with `L` from second-derivative
 bounds `KAP6`; all cells must have a positive lower bound.
 Both steps are in Arb balls with 192-bit precision. `boxcert.try_stable` returns `(ok, info)` only if every cell closes.
 
-The mathematical content (a)+(b) is certified *per box*, and the boxes are glued by `lean/GSTMap/Tree.lean` (coverage of F+ cap {Im<=3}).
+The calculation certifies each box separately. `lean/GSTMap/Tree.lean` checks coverage of `F+ cap {Im <= 3}`.
 
-## 4. Cusp lemma (CERTIFIED, computer-assisted): every tau with Im tau >= 3 is unstable
+## 4. Cusp instability for `Im tau >= 3`
 
 **Lemma C.** For all `t1 in R` and `t2 >= 3`, `Sigma_tau(s*,0) < 0` where `s* = sqrt(a/(pi t2))`, `a = ln(10/7)` (so `e^{-pi t2 s*^2} = x := 7/10`).
 
@@ -131,11 +128,9 @@ stability). The mechanism for the shapes in the unstable region is the loss of p
 
 ## 6. Statement of the partial stability diagram
 
-* **Unstable region (CERTIFIED, computer-assisted).** `{Im tau >= 3}` (every Re tau; Lemma C), plus the union of the unstable leaves of the tree.
-* **Stable region (CERTIFIED).** The union of the stable leaves: the closed box `Sigma>0` on torus minus 0 for every tau in the leaf.
-* **Marginal set (CERTIFIED brackets).** On each vertical segment between an S box below and a U box above, closedness of the stable set gives a last stable point; this need not form a unique graph.
-* **Quartic curve `Gamma4` (section 10).** The implicit equations `P4(1,r)=0`, `d_r P4(1,r)=0` describe an analytic branch. Identifying it with the full spectral boundary still requires control of every nonzero Bloch momentum.
-* **Undecided set.** The explicit X leaves of the final tree. Its coordinate area is a certificate-dependent upper bound, not a physical transition width.
+The unstable region includes every shape with `Im tau >= 3` by Lemma C, as well as the union of the U leaves. The stable region includes the union of the S leaves, where each shape in a closed leaf has `Sigma > 0` away from the origin.
+
+On a vertical segment between an S box below and a U box above, closedness of the stable set yields a last stable point. These brackets give neither uniqueness nor smoothness of the boundary. The equations `P4(1,r)=0` and `d_r P4(1,r)=0` describe the analytic branch `Gamma4` in Section 10. The X leaves are undecided. Their coordinate area is an upper bound from this subdivision, not a physical transition width.
 
 ## 7. Final exact tree (`tree_smallq.jsonl`)
 
@@ -145,11 +140,9 @@ K is strictly outside F+. S means `Sigma_tau(q)>0` for every tau in the closed l
 
 Sampled vertical brackets are x=0.3: `[0.95751953125,0.95782470703125]`, x=0.4: `[1.026611328125,1.02685546875]`, x=0.5: `[1.0489501953125,1.04913330078125]`. These are brackets, not a uniform strip-width or uniqueness theorem.
 
-The certified S and U unions resemble a petal and its exterior, but the X leaves are not assigned either sign. The existence of brackets does not prove uniqueness, smoothness, or equality of the true spectral boundary with `Gamma4`.
-
 ## 8. Independence and limits
 
-The independent floating-point S-dual implementation samples all 4178 S leaves. Sampling is NUMERICAL and does not replace a continuous cover. A second-arithmetic attempt covered only 12 leaves; the remaining 4166 have no second-arithmetic coverage. S retains a single interval implementation. U has a separate cancellation-preserving interval verifier, described below. The analytic formulas and tail proofs remain part of the mathematical trust base.
+A separate floating-point calculation using the S transformation samples all 4178 S leaves. A second interval calculation covered 12 leaves, leaving 4166 without a second interval check. The full S cover uses one interval implementation. Section 9 gives the separate U verifier and its analytic formulas and tail bounds.
 
 ## 9. Analytic cancellation, P4/P6, and a second rigorous U verifier
 
@@ -164,7 +157,7 @@ On compact subsets of `y>0`, every differentiated summand is bounded by a polyno
 are therefore justified by locally uniform absolute convergence. The coefficients of `exp(Lt+Qt^2)`
 satisfy `c0=1,c1=L,cj=(L c(j-1)+2Q c(j-2))/j`.
 
-**Exact quadratic cancellation (PROVED).** Let `M2=sum w m^2=sum w n^2` and `M11=sum w mn`.
+For the quadratic cancellation, set `M2=sum w m^2=sum w n^2` and `M11=sum w mn`.
 Pairing `n` with `-n` shows that `lambda` and `M2` are real and `M11` is purely imaginary.
 Put `u=2 pi y s`, `v=2 pi(x s+xi)`. Direct expansion gives
 
@@ -184,11 +177,7 @@ polynomial algebra once `A2=Re B2` is supplied; it does not formalize differenti
 If `P4(q)<0`, taking `t>0` small gives `Sigma(tq)<0`. Hence spectral stability necessarily implies
 `P4>=0` in every direction. Positive-definite P4 implies positivity only for sufficiently small q.
 
-**Independent interval semantics.** `cancel_iv.py` has no Arb or original-engine import. It expands
-the scalar t series FIRST and inserts the exact cancellations above before enclosing tau; this is why
-its tau gradient retains the fourth power of the small witness momentum. Only the quartic uses a
-centred tau mean-value enclosure. Higher even coefficients through degree 2N are enclosed directly.
-It reuses the supplied rational witness, not the original search or Taylor implementation.
+The separate verifier `cancel_iv.py` uses `mpmath.iv` and imports neither Arb nor the original engine. It expands the scalar t series and applies the exact cancellations before enclosing tau. The tau gradient therefore retains the fourth power of the small witness momentum. It uses a centred tau mean-value enclosure only for the quartic and encloses the higher even coefficients through degree 2N directly. It starts from the supplied rational witness.
 
 Here is a proof of its tail bounds. For `|t|<=1` complex, either K or B summand is bounded in modulus by
 
@@ -217,7 +206,7 @@ If `|A-A_N|<=epsA`, `|B-B_N|<=epsB`, then the error in Sigma is at most
 `2|A_N|epsA+epsA^2+2|B_N|epsB+epsB^2`. Its strictly negative upper bound proves each U claim.
 Tau subdivision is exact rational subdivision; every subbox must pass. All 25088 U leaves have strictly negative upper bounds. The negative-control script accepts a true U box and rejects a stable box, a curve-straddling box, a zero witness and an inadequate truncation.
 
-## 10. Parametric enclosure of the quartic branch (not yet the full spectral boundary)
+## 10. Parametric enclosure of the long-wave transition
 
 Set `f(x,y,r)=P4_(x+iy)(1,r)`. `gamma_implicit.py` encloses the two equations `F=(f,f_r)=0`
 on the exact x interval `[37/128,1/2]`. Each patch has rational x centre and half-width hx,
@@ -238,7 +227,7 @@ x. These are ordinary interval inclusions, independent of the float seed's accur
 checks `f_y<0`, `f_rr>0`. At a root the Jacobian determinant is `f_y*f_rr`, so the implicit-function
 theorem gives a real-analytic branch. `verify_gamma_chain.py` proves existence of a root in the
 intersection of each neighbouring pair of closed (y,r) boxes at their exact common x endpoint.
-Uniqueness in each patch then glues them; merely overlapping seed boxes would NOT suffice.
+Uniqueness in each patch identifies the roots at the common endpoint.
 The chain has 396 joins, two unit-arc bracket endpoint roots and three additional fixed-x roots. The negative-control script accepts a genuine double root and adjacent join, and rejects a shifted centre, wrong null direction, omitted patch and shifted common endpoint.
 
 All 397 patches certify `f_y < -1.6427`, `f_rr > 12.7189` and `P6(1,r) > 0.74577`, including patches below x=0.3. The sextic bound uses the unnormalised direction `(1,r)`. These decimals conservatively summarize interval signs; the verifier uses the interval values.
@@ -278,7 +267,5 @@ away from them P4 has a positive lower bound. The uniform `O(rho^8)` remainder t
 `f_y<0` gives a negative quartic direction and spectral instability. On the branch the null-direction
 frequency scales as `|q|^3`, not the generic `|q|^2`.
 
-**Remaining logical gap:** none of this rules out `Sigma<0` at a finite nonzero momentum on the
-branch or between the S union and the branch. Therefore `Gamma4` is a certified long-wave transition
-curve, NOT yet a proved full spectral-stability boundary.
+The certificates establish a long-wave transition. Identifying `Gamma4` with the full spectral boundary would also require excluding negative `Sigma` at finite nonzero momentum on the branch and between the S union and the branch.
 

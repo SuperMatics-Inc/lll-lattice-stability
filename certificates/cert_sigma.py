@@ -1,5 +1,5 @@
-r"""CERTIFIED (Arb ball arithmetic, python-flint): Sigma(s,xi) = A^2 - |B|^2 > 0 on the Brillouin torus T^2 \ {0}
-for an exactly rational lattice parameter tau = t1 + i t2, plus the small-k degeneracy Sigma = P4 + O(|k|^6), P4 > 0.
+r"""Use Arb to verify Sigma(s,xi) = A^2 - |B|^2 > 0 on the Brillouin torus T^2 \ {0}
+for rational lattice parameters t1 and t2, and Sigma = P4 + O(|k|^6) with P4 > 0 near the origin.
 
 Closed Gaussian lattice sums (derived in the report / paper; checked against the LLL kernel to 1e-16 in closed_form.py):
     G(x,y) = c exp(-pi t2 (x^2+y^2) + 2 pi i t1 x y),  c = sqrt(t2)/pi,
@@ -8,9 +8,9 @@ Closed Gaussian lattice sums (derived in the report / paper; checked against the
 Sigma is 1-periodic in s and xi (|B| periodic) and even: Sigma(-s,-xi) = Sigma(s,xi)  (B(-s,-xi)=B(s,xi) by relabelling).
 Strategy
   (I)  near region  rho := max(|s|,|xi|) <= r1 :  Taylor polynomial of A,B to degree N at 0 (coefficients enclosed incl. lattice tails),
-       exact vanishing of the Sigma coefficients of degree <= 3 (PROVED analytically, report Sec. 4; the ball enclosures are only
-       *checked* to contain 0), P4 > p4lo * rho^4 (rigorous min over the boundary of the sup-norm unit square), and
-       p4lo - sum_{j>=5} c_j r1^{j-4} - (Taylor tail)/r1^4 > 0, which suffices for every rho <= r1 by monotonicity.
+       Section 4 of the report proves that the Sigma coefficients of degree <= 3 vanish exactly. We check that
+       the intervals contain zero. Minimizing on the boundary of the sup-norm unit square gives P4 > p4lo * rho^4.
+       The inequality p4lo - sum_{j>=5} c_j r1^{j-4} - (Taylor tail)/r1^4 > 0 suffices for every rho <= r1 by monotonicity.
   (II) far region: adaptive subdivision of [0,1/2] x [-1/2,1/2] (Sigma even => half torus), degree-5 jets of A,B at cell centres,
        degree-6 remainder from a global sup bound on the 6th derivatives of A and B, test
        Sigma(c) - sum_{1<=d<=5} h^d sum_{a+b=d}|S_ab| - kappa6 h^6 > 0 on each cell; cells inside the near box [-r1,r1]^2 are skipped.
@@ -224,7 +224,7 @@ def near_certificate(r1, Ndeg):
     hdr("[near] coefficients done; A(0)-lam, B(0)-lam enclosures:")
     print("    A00 =", Ac[(0, 0)].str(20, radius=True), "  Re B00 =", Bc[(0, 0)].real.str(20, radius=True), "  lam =", LAM.str(20, radius=True))
     S = sigma_poly(Ac, Bc, 2 * Ndeg)
-    # ---- low-order coefficients: PROVED to be exactly 0 (Sec. 4); enclosures only checked to contain 0
+    # Section 4 proves these coefficients vanish; check that their intervals contain zero.
     worst = 0.0
     for (a, b), v in S.items():
         if a + b <= 3:

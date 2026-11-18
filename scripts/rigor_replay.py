@@ -1,6 +1,6 @@
-"""Replay all three certificates through mpmath.iv; retain full output and exits.
-Shared analytic formulas are intentional: this checks the rounding toolchain,
-not independent correctness of the mathematical bounds. Run from any cwd.
+"""Check three certificates with mpmath.iv and save their output and exit codes.
+This compares the arithmetic backends using the same analytic bounds.
+Run from any directory.
 """
 from pathlib import Path
 import argparse
@@ -31,8 +31,8 @@ def child(name):
 
 def main():
     p = argparse.ArgumentParser()
-    p.add_argument('--child', choices=['mu','minus','plus'])
-    p.add_argument('--output', type=Path, default=ROOT/'logs'/'rigor')
+    p.add_argument('--child', choices=['mu','minus','plus'], help='Check only the selected certificate')
+    p.add_argument('--output', type=Path, default=ROOT/'logs'/'rigor', help='Directory for calculation logs')
     a = p.parse_args()
     if a.child:
         child(a.child)

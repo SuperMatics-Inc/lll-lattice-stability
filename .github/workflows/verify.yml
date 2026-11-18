@@ -27,7 +27,7 @@ jobs:
           python-version: '3.12'
       - uses: astral-sh/setup-uv@v6
       - run: python scripts/verify_pins.py
-      - name: Replay bounded CI subset (not full U or S covers)
+      - name: Check the partition, curve, cusp and negative controls
         run: uv run --no-project --with-requirements requirements.txt python gstmap/replay.py --ci-subset --workers 4 --output map-replay-output
       - uses: actions/upload-artifact@v4
         if: always()

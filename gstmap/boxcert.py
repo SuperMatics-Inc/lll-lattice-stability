@@ -1,4 +1,4 @@
-"""Box certificates: try_stable (Sigma>0 on T^2\\{0} for ALL tau in box) and try_unstable (re-export)."""
+"""Find box certificates for Sigma > 0 on T^2 except at the origin, or for instability."""
 import sys, time
 from fractions import Fraction
 from flint import ctx, arb

@@ -1,5 +1,5 @@
-"""Replay EVERY S leaf of the supplied final tree: arb = primary rigorous
-NEAR/FAR implementation; sample = independent float sampling, NOT certification.
+"""Check all stable leaves in the supplied tree.
+The arb mode checks the near and far interval bounds. The sample mode uses a separate floating-point calculation.
 """
 import json,sys,time
 from fractions import Fraction as F

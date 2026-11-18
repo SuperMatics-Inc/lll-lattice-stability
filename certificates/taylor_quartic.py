@@ -1,5 +1,5 @@
-"""NUMERICAL (mpmath, 40 digits, NOT interval-certified): exact Taylor coefficients at k=0 of the LLL symbol
-Sigma(s,xi)=A^2-|B|^2 from the closed Gaussian lattice sums
+"""Evaluate the Taylor coefficients at k=0 of the LLL symbol
+Sigma(s,xi)=A^2-|B|^2 from closed Gaussian sums with 40-digit mpmath arithmetic, without interval bounds.
    A(s,xi) = 2*Khat1 - lam,  Khat1 = c sum_{P,d} exp(-pi t2[(P+s)^2+d^2] - 2 pi i d (xi + t1 (P+s)))   (real)
    B(s,xi) = c sum_{m,n}    exp(-pi t2[(m+s)^2+(n-s)^2] + 2 pi i t1 (m+s)(n-s) + 2 pi i xi (n-m))
 Checks: orders 0..3 of Sigma vanish; A2 = Re B2 (quadratic term of A-|B| vanishes);

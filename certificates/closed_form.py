@@ -1,5 +1,5 @@
 """Closed Gaussian lattice-sum forms of the LLL linearised symbol for general tau.
-NUMERICAL cross-check (float64) of the closed forms against pocket_scan.kern/sigma.
+Compare the closed forms against pocket_scan.kern and pocket_scan.sigma in double precision.
 
  A(s,xi) = 2*Khat1 - lam,   Khat1 = c * sum_{P,d in Z} exp(-pi t2[(P+s)^2+d^2]) exp(-2 pi i d (xi + t1 (P+s)))   [(P,d)-form]
  B(s,xi) = c * e^{4 pi i xi s} * sum_{x in s+Z, y in -s+Z} exp(-pi t2 (x^2+y^2) + 2 pi i t1 x y + 2 pi i xi (y-x))  [(x,y)-form]

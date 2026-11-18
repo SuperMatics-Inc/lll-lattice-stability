@@ -1,4 +1,4 @@
-"""Replay the complete reproducibility supplement (Python checks; Lean is separate).
+"""Run the Python reproduction checks. Build Lean separately.
 Install uv first; this command fetches public numerical packages into uv's cache.
 Outputs are generated calculations, not experimental measurements.
 """
@@ -15,7 +15,7 @@ CERT = ROOT / ('cert' if (ROOT/'cert').is_dir() else 'certificates')
 
 def main():
     p = argparse.ArgumentParser(description=__doc__)
-    p.add_argument('--output', type=Path, default=ROOT/'replay-output')
+    p.add_argument('--output', type=Path, default=ROOT/'replay-output', help='Directory for calculation logs')
     a = p.parse_args()
     out = a.output.resolve()
     out.mkdir(parents=True, exist_ok=True)

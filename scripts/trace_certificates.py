@@ -1,4 +1,4 @@
-"""Emit exact dyadic leaf geometry and challenge certificate acceptance rules."""
+"""Record the exact dyadic leaf geometry and verify that altered subdivisions are rejected."""
 from pathlib import Path
 from fractions import Fraction as F
 import argparse
@@ -13,7 +13,7 @@ CERT = ROOT / ('cert' if (ROOT/'cert').exists() else 'certificates')
 
 def main():
     p = argparse.ArgumentParser()
-    p.add_argument('--output',type=Path, default=ROOT/'logs'/'rigor')
+    p.add_argument('--output',type=Path, default=ROOT/'logs'/'rigor', help='Directory for the subdivision records')
     a = p.parse_args()
     a.output.mkdir(parents=True,exist_ok=True)
     for name, args in [('minus',['-2/5','19/20','1/100']),('plus',['2/5','1','1/40'])]:
@@ -42,8 +42,8 @@ def main():
                         todo.extend((s+ds*h/2,x+dx*h/2,h/2) for ds in [-1,1] for dx in [-1,1])
                         continue
                 leaves.append(dict(s=str(s),xi=str(x),h=str(h),kind=kind,lower=bound))
-            # Exact area and non-overlap follow the emitted recursive split,
-            # independently check the area to detect omission/duplication mutants.
+            # The recursive split gives disjoint interiors. Check the area
+            # separately to detect a missing or repeated leaf.
             area=sum((4*F(v['h'])**2 for v in leaves),F(0))
             assert area == F(1,2)
             assert sum((4*F(v['h'])**2 for v in leaves[:-1]),F(0)) != F(1,2)
@@ -53,9 +53,9 @@ def main():
             # An intentionally too-large near radius must not be accepted.
             mutant=c.near_certificate(c.arb(1)/2,c.N)[0]
             assert not mutant
-            print('CERT area',area,'tests',tests,'far',sum(v['kind']=='far' for v in leaves),
+            print('Certified area',area,'tests',tests,'far',sum(v['kind']=='far' for v in leaves),
                   'near',sum(v['kind']=='near' for v in leaves),'worst',worst)
-            print('REJECT removed leaf; duplicate leaf; negative near/quartic bound; radius=1/2')
+            print('Rejected: missing leaf, duplicate leaf, negative near or quartic bound, radius=1/2')
             print('exit=0')
         data=dict(parameter=args,leaves=leaves,area=str(area),tests=tests,
                   adversarial={'removed_leaf':'rejected','duplicated_leaf':'rejected',

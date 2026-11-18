@@ -1,4 +1,4 @@
-"""Archived validation checks for the LLL Bloch symbol (NUMERICAL, float64/mp via pocket_scan helpers).
+"""Check identities for the LLL Bloch symbol numerically, using pocket_scan in double and multiprecision arithmetic.
  1. A(k)=A(-k) real, |B(k)|=|B(-k)|, B(k)conj(B(-k)) = |B|^2 real  (pairing (s,xi)<->(-s,-xi))
  2. Poisson/Gaussian-lattice-sum form of K1hat^s(xi)
  3. SL2(Z) covariance of Sigma

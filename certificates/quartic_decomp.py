@@ -1,4 +1,4 @@
-"""NUMERICAL (mpmath 40 digits): decompose the exact quartic coefficient of Sigma at k=0.
+"""Evaluate the decomposition of the quartic coefficient of Sigma at k=0 with 40-digit mpmath arithmetic.
    D = A - |B| = c4 + O(k^6),  c4 = A4 - Re B4 - (Im B2)^2/(2 lam),  P4 = 2 lam c4   (A2 = Re B2, B1 = B3 = 0).
 Reports: P4 vs 2*pi*lam*t2^2*Q_mirror(theta), the difference, Im B2(q) form, and a least-squares test of
    P4 - 2 pi lam t2^2 Q  ~  beta * (Im B2)^2.

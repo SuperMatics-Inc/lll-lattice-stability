@@ -1,4 +1,4 @@
-"""Unstable-box certificates: a point q0 and a rigorous upper bound Sigma_tau(q0) < 0 for ALL tau in a box."""
+"""Unstable-box certificates: a point q0 and a rigorous upper bound Sigma_tau(q0) < 0 for every tau in a box."""
 import sys, time
 from fractions import Fraction
 import numpy as np

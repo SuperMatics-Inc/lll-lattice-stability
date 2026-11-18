@@ -1,4 +1,4 @@
-"""Adversarial acceptance/rejection controls for the cancellation-preserving verifier."""
+"""Check that the interval verifier accepts valid witnesses and rejects altered ones."""
 import json,sys
 from fractions import Fraction as F
 import cancel_iv as C

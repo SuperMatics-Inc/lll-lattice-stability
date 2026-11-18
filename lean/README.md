@@ -2,18 +2,16 @@
 
 Toolchain: Lean 4.35.0, Mathlib v4.35.0, `autoImplicit=false`.
 
-The library checks algebra, the uniform near-origin argument, exact rational
-rounding, and the geometry of the two recorded adaptive subdivisions. It does
-**not** turn the numerical theta-function interval computations into kernel
-proofs. Its final spectral-determinant theorems are conditional on the analytic
-enclosures explicitly listed below.
+The library checks algebra, uniform near-origin scaling, exact rational
+rounding and the geometry of two adaptive subdivisions. The
+spectral-determinant theorems assume the analytic enclosures listed below.
 
 ## Build and axiom dependencies
 
 Run `lake build`. The default target imports `GSTStability.AxiomCheck`, which
-prints the axiom dependencies of every main theorem. The expected trust base is
-Lean's `propext`, `Classical.choice`, and `Quot.sound`; no custom axiom, `sorry`,
-or native-decide oracle is used. Exact rational trace checks use `decide +kernel`.
+lists each main theorem's axiom dependencies. The expected list contains only
+`propext`, `Classical.choice` and `Quot.sound`. The proofs use no custom axiom,
+`sorry` or `native_decide`. The rational trace checks use `decide +kernel`.
 
 For a portable checkout use this dependency in `lakefile.toml`:
 
@@ -24,7 +22,7 @@ scope = "leanprover-community"
 rev = "v4.35.0"
 ```
 
-Run `lake exe cache get`, then `lake build`. Existing builds used the same Mathlib revision from a local cache; the portable git-pinned dependency configuration has not been build-exercised.
+Fetch the precompiled Mathlib files with `lake exe cache get` before `lake build`. GitHub Actions builds this dependency configuration.
 
 ## Proof map
 
@@ -78,17 +76,12 @@ Run `lake exe cache get`, then `lake build`. Existing builds used the same Mathl
    `QuadTree.farLowerBounds`, with common rational endpoint
    `104595/1000000000000000` or `424467/100000000000000`.
    The final assembly proves that these endpoints imply strict positivity.
-   The stored decimal Arb bounds are **not** silently cast into a theorem
-   or treated as axioms.
-4. The function's evenness and integer periodicity are explicit hypotheses.
-   The exact-rational ball checks certify arithmetic on the printed enclosures,
-   not the provenance of those enclosures.
+4. The function’s evenness and integer periodicity are explicit hypotheses.
+   Lean checks arithmetic on the printed enclosures; the interval calculation
+   supplies the enclosures themselves.
 5. The Lean conclusion is determinant positivity, conditional on those analytic
    inputs. It does not formalize fibre eigenvalues, the zero Jordan block,
    modular non-equivalence, persistence in tau, the hexagonal shape theorem,
    weighted/dispersive estimates, or nonlinear stability.
 
-Thus this is a kernel-checked formalization of the certificate's algebraic,
-remainder-scaling and coverage reasoning, **not an unconditional Lean proof of
-the analytic theta-sum spectral theorem**. The independent interval replay
-and manuscript supply the remaining trust base.
+The interval verifier and the accompanying report supply the analytic arguments outside Lean.

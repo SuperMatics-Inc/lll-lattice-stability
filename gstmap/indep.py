@@ -1,8 +1,7 @@
-"""Independent NUMERICAL cross-check of the Arb certificates (second implementation).
+"""Sample the interiors of the Arb certificate boxes with a separate double-precision calculation.
 
-Shares NO code with gsteng.py/boxcert.py/unst.py/gstsym.py: own lattice sums (numpy float64), and the
-*S-dual* evaluator  Sigma_tau(s,xi) = Sigma_{-1/tau}(xi,-s)  (Proposition 1 (S)), different truncation.
-Never used as a proof; used to replay sampled certificate boxes at interior points of the box.
+The evaluator implements its own Gaussian sums with NumPy and a different truncation, using the S transformation
+Sigma_tau(s,xi) = Sigma_{-1/tau}(xi,-s) from Proposition 1. It supplies a numerical cross-check.
 """
 import math
 import numpy as np

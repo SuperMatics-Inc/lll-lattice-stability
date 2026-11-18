@@ -1,10 +1,10 @@
-r"""GSTMAP certificate engine (Arb ball arithmetic, python-flint).
+r"""Enclose the lowest-Landau-level symbol over boxes of lattice shapes with Arb.
 
-Sigma(s,xi) = A^2 - |B|^2,  A = 2K - lam,  K,B closed Gaussian lattice sums of the GST LLL Hamiltonian (see
-cert_sigma_orig.py for the original single-tau engine from the paper; this module generalises it to tau-BOXES via the
-mean-value (centred) form:  S(tau) in S(tau0) + sum_i dS/dt_i(box) * [-w_i, w_i]  applied coefficientwise).
+Write Sigma(s,xi) = A^2 - |B|^2, with A = 2K - lam and K,B the Gaussian sums of the GST Hamiltonian.
+Starting from the single-shape formulas in ../certificates/cert_sigma.py, enclose each coefficient by
+S(tau) in S(tau0) + sum_i dS/dt_i(box) * [-w_i, w_i].
 
-Convention: P0 = Params at the exact rational centre tau0 (tiny rounding balls only), Pb = Params on the closed box.
+P0 gives parameters at the exact rational centre tau0, up to rounding. Pb encloses them on the closed box.
 """
 import time
 from math import comb, factorial

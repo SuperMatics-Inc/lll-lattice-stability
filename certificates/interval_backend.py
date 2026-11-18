@@ -1,4 +1,4 @@
-"""Minimal, outward-rounded mpmath.iv adapter for replaying the Arb formulas.
+"""Evaluate the Arb formulas with outward-rounded intervals in mpmath.iv.
 This is an independent arithmetic backend, not an independent derivation of bounds.
 Endpoint extraction uses exact binary mpf tuples, never float rounding.
 """

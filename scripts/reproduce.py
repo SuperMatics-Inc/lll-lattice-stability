@@ -1,4 +1,4 @@
-"""Replay every retained numerical program, recording commands, exits and hashes.
+"""Run the numerical programs and record commands, exit codes and checksums.
 
 Run from any directory with Python and uv installed:
   python scripts/reproduce.py --output /path/to/logs
@@ -31,7 +31,7 @@ RUNS = [
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--output', type=Path, required=True)
+    parser.add_argument('--output', type=Path, required=True, help='Directory for calculation logs')
     args = parser.parse_args()
     output = args.output.resolve()
     output.mkdir(parents=True, exist_ok=True)

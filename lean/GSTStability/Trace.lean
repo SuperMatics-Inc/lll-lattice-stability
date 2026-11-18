@@ -27,7 +27,7 @@ inductive QuadTree where
   | split (ll lu ul uu : QuadTree)
   deriving Repr
 
-/-- Near/far leaf counts, for independent reconciliation with the replay logs. -/
+/-- Number of near and far leaves, for comparison with the calculation logs. -/
 def QuadTree.leafCounts : QuadTree → ℕ × ℕ
   | .near => (1, 0)
   | .far => (0, 1)
