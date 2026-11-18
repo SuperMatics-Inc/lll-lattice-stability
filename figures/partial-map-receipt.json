@@ -1,0 +1,19 @@
+{
+  "claim": "CERTIFIED PARTIAL map; rendering only, no new physics",
+  "tree_sha256": "647585a453c630987b8ee98a03f2af03065d6e6598636f11e4dd2f18e49012ee",
+  "leaf_counts": {
+    "K": 66,
+    "U": 25088,
+    "S": 4178,
+    "X": 11238
+  },
+  "coordinate_areas": {
+    "K": "16235067/268435456",
+    "U": "296608283/268435456",
+    "S": "1478129/67108864",
+    "X": "5619/134217728"
+  },
+  "style_sha256": "a48f30ca901a15529d5f11b08ca2d575aec5b11b313a4dbf44b8e571772afa36",
+  "script_sha256": "c70d4e53aedfcf9c95c3f1e0380cf2b7a2914ab9d0db420809c53475470f72d5",
+  "pdf_sha256": "9d94fee1ae9d52f459a7b4b8ac16dbcc6f53a15bf551732966aac2e4f02607a8"
+}

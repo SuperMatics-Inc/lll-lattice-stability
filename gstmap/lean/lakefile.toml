@@ -1,0 +1,15 @@
+name = "GSTMap"
+version = "1.0.0"
+defaultTargets = ["GSTMap"]
+
+[leanOptions]
+autoImplicit = false
+
+[[require]]
+name = "mathlib"
+scope = "leanprover-community"
+rev = "v4.35.0"
+
+[[lean_lib]]
+name = "GSTMap"
+moreLeanArgs = ["-M4096"]

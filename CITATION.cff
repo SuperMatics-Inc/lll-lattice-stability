@@ -1,0 +1,30 @@
+cff-version: 1.2.0
+message: "Please cite the accompanying technical report and this supplement."
+title: "Certified non-hexagonal spectral stability in the lowest-Landau-level equation: reproducibility supplement"
+type: software
+version: 1.0.0
+doi: 10.5281/zenodo.24326109
+license: Apache-2.0
+repository-code: "https://github.com/SuperMatics-Inc/lll-lattice-stability"
+authors:
+  - family-names: Rens
+    given-names: Davis
+    affiliation: "SuperMatics Inc."
+    email: davis@supermatics.io
+    orcid: https://orcid.org/0000-0001-5839-5197
+keywords:
+  - lowest Landau level
+  - spectral stability
+  - Lean 4
+  - interval arithmetic
+preferred-citation:
+  type: report
+  title: "Certified non-hexagonal spectral stability in the lowest-Landau-level equation"
+  authors:
+    - family-names: Rens
+      given-names: Davis
+      affiliation: "SuperMatics Inc."
+      orcid: https://orcid.org/0000-0001-5839-5197
+  year: 2026
+  doi: 10.5281/zenodo.24326107
+  notes: "SuperMatics Technical Report SM-TR-2026-02. Not peer reviewed."

@@ -1,0 +1,40 @@
+{
+  "title": "Certified non-hexagonal spectral stability in the lowest-Landau-level equation: reproducibility supplement",
+  "upload_type": "software",
+  "description": "Supporting conditional Lean formalization, interval certificates and numerical checks for non-hexagonal LLL spectral stability and a certified partial shape map. See README for the exact claims and trust boundaries.",
+  "version": "1.0.0",
+  "doi": "10.5281/zenodo.24326109",
+  "creators": [
+    {
+      "name": "Rens, Davis",
+      "affiliation": "SuperMatics Inc.",
+      "orcid": "0000-0001-5839-5197"
+    }
+  ],
+  "license": "Apache-2.0",
+  "access_right": "open",
+  "keywords": [
+    "Hamiltonian PDE",
+    "lowest Landau level",
+    "spectral stability",
+    "interval arithmetic",
+    "Lean 4"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "10.5281/zenodo.24326107",
+      "scheme": "doi",
+      "relation": "isSupplementTo"
+    },
+    {
+      "identifier": "https://github.com/SuperMatics-Inc/lll-lattice-stability",
+      "scheme": "url",
+      "relation": "isIdenticalTo"
+    },
+    {
+      "identifier": "10.5802/jep.298",
+      "scheme": "doi",
+      "relation": "references"
+    }
+  ]
+}
