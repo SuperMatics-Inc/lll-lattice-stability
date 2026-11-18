@@ -2,7 +2,7 @@
 
 Reproducibility supplement to Davis Rens, *Certified non-hexagonal spectral stability in the lowest-Landau-level equation*, SuperMatics Technical Report SM-TR-2026-02 (2026), report DOI [10.5281/zenodo.24326107](https://doi.org/10.5281/zenodo.24326107). The report is not peer reviewed.
 Repository: https://github.com/SuperMatics-Inc/lll-lattice-stability.
-Version 1.0.0; software supplement DOI: [10.5281/zenodo.24326109](https://doi.org/10.5281/zenodo.24326109). Both DOIs are reserved; the deposits are not yet published.
+Version 1.0.0; software supplement DOI: [10.5281/zenodo.24326109](https://doi.org/10.5281/zenodo.24326109). Both DOIs are published and resolve at the links above.
 
 ## Statements and limits
 

@@ -3,6 +3,7 @@ message: "Please cite the accompanying technical report and this supplement."
 title: "Certified non-hexagonal spectral stability in the lowest-Landau-level equation: reproducibility supplement"
 type: software
 version: 1.0.0
+date-released: 2026-11-18
 doi: 10.5281/zenodo.24326109
 license: Apache-2.0
 repository-code: "https://github.com/SuperMatics-Inc/lll-lattice-stability"
